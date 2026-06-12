@@ -1,4 +1,6 @@
 import 'reflect-metadata';
+import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from 'nestjs-pino';
@@ -9,7 +11,12 @@ import type { Env } from './config/env';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  const env = app.get<Env>(ENV);
+
   app.useLogger(app.get(Logger));
+  app.use(helmet());
+  app.use(cookieParser());
+  app.enableCors({ origin: env.WEB_URL, credentials: true });
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.setGlobalPrefix('api/v1', {
     exclude: ['health/liveness', 'health/readiness'],
@@ -21,7 +28,6 @@ async function bootstrap() {
     .build();
   SwaggerModule.setup('api/docs', app, SwaggerModule.createDocument(app, swaggerConfig));
 
-  const env = app.get<Env>(ENV);
   await app.listen(env.API_PORT);
 }
 
