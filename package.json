@@ -16,5 +16,8 @@
   "devDependencies": {
     "prettier": "^3.5.3",
     "turbo": "^2.5.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "@electric-sql/pglite"]
   }
 }
