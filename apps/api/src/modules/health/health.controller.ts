@@ -1,5 +1,6 @@
 import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { AppException } from '../../common/filters/global-exception.filter';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports -- value import required for emitDecoratorMetadata / NestJS DI token
 import { DbService } from '../../infra/db/db.service';
 
 @Controller('health')
