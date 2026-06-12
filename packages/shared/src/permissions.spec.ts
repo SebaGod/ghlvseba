@@ -3,7 +3,6 @@ import {
   COMPANY_ROLES,
   PERMISSIONS,
   roleHasPermission,
-  type CompanyRole,
 } from './permissions';
 
 describe('roleHasPermission', () => {
@@ -29,7 +28,5 @@ describe('roleHasPermission', () => {
 
   it('exposes the three membership roles', () => {
     expect(COMPANY_ROLES).toEqual(['company_admin', 'manager', 'agent']);
-    const role: CompanyRole = 'manager';
-    expect(role).toBe('manager');
   });
 });
