@@ -21,8 +21,9 @@ describe('loadEnv', () => {
     expect(env.API_PORT).toBe(8080);
   });
 
-  it('fails fast naming the missing variable', () => {
+  it('fails fast naming every missing variable', () => {
     expect(() => loadEnv({})).toThrow(/DATABASE_URL/);
+    expect(() => loadEnv({})).toThrow(/JWT_ACCESS_SECRET/);
   });
 
   it('rejects an invalid NODE_ENV', () => {
@@ -39,5 +40,9 @@ describe('loadEnv', () => {
   it('accepts an explicit WEB_URL', () => {
     const env = loadEnv({ ...valid, WEB_URL: 'https://app.example.com' });
     expect(env.WEB_URL).toBe('https://app.example.com');
+  });
+
+  it('rejects a non-URL WEB_URL', () => {
+    expect(() => loadEnv({ ...valid, WEB_URL: 'not-a-url' })).toThrow(/WEB_URL/);
   });
 });

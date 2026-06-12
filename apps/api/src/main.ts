@@ -14,7 +14,12 @@ async function bootstrap() {
   const env = app.get<Env>(ENV);
 
   app.useLogger(app.get(Logger));
-  app.use(helmet());
+  app.use(
+    helmet({
+      // HSTS over plain http in dev would pin browsers to https for a year
+      strictTransportSecurity: env.NODE_ENV === 'production',
+    }),
+  );
   app.use(cookieParser());
   app.enableCors({ origin: env.WEB_URL, credentials: true });
   app.useGlobalFilters(new GlobalExceptionFilter());
