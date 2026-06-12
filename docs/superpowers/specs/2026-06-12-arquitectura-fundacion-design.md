@@ -111,7 +111,7 @@ con índice compuesto `(company_id, ...)`.
 companies        id, name, slug (único), status (active|suspended),
                  timezone (default America/Santiago), locale (default es)
 
-users            id, email (único, citext), password_hash (argon2id),
+users            id, email (único, normalizado a minúsculas), password_hash (argon2id),
                  name, avatar_url, status (active|disabled),
                  email_verified_at, is_super_admin (bool, default false)
 
@@ -122,9 +122,10 @@ memberships      id, user_id, company_id, role (company_admin|manager|agent),
 invitations      id, company_id, email, role, token_hash, invited_by_user_id,
                  expires_at, accepted_at
 
-sessions         id, user_id, refresh_token_hash, expires_at, ip, user_agent,
-                 revoked_at — rotación: cada refresh emite token nuevo y
-                 revoca el anterior; reuso de token revocado revoca la familia.
+sessions         id, user_id, family_id, refresh_token_hash, expires_at, ip,
+                 user_agent, revoked_at — rotación: cada refresh emite token
+                 nuevo y revoca el anterior; reuso de un token revocado revoca
+                 toda la familia (family_id).
 
 auth_tokens      id, user_id, type (email_verification|password_reset),
                  token_hash, expires_at, consumed_at
@@ -249,10 +250,11 @@ Next.js App Router con route groups:
 
 ## 9. Testing
 
-- **API (Jest):** unit en servicios de auth/permisos; integración contra
-  Postgres real (Testcontainers) cubriendo el flujo completo de auth, reglas
-  de negocio (último admin, empresa suspendida) y el test crítico de
-  aislamiento multi-tenant (§4).
+- **API (Vitest + unplugin-swc):** unit en servicios de auth/permisos;
+  integración con PGlite (Postgres embebido en proceso — funciona sin Docker,
+  tanto en CI como en entornos de agente) cubriendo el flujo completo de
+  auth, reglas de negocio (último admin, empresa suspendida) y el test
+  crítico de aislamiento multi-tenant (§4).
 - **Web (Vitest + Testing Library):** componentes del design system y
   formularios de auth.
 - **E2E (Playwright, smoke):** registrar → verificar email (vía Mailpit) →
