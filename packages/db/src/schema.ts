@@ -10,6 +10,12 @@ import {
 } from 'drizzle-orm/pg-core';
 import { uuidv7 } from 'uuidv7';
 
+// FKs deliberately use the default NO ACTION: domain rows are soft-deleted via
+// status columns (users.status, companies.status, memberships.status), never
+// hard-deleted. The exceptions are sessions and auth_tokens — ephemeral child
+// rows with no audit value — which cascade so a hard user purge (e.g. GDPR)
+// is not blocked.
+
 const id = () =>
   uuid('id')
     .primaryKey()
@@ -99,6 +105,7 @@ export const invitations = pgTable(
   (t) => [
     uniqueIndex('invitations_token_hash_idx').on(t.tokenHash),
     index('invitations_company_idx').on(t.companyId),
+    index('invitations_company_email_idx').on(t.companyId, t.email),
   ],
 );
 
@@ -108,7 +115,7 @@ export const sessions = pgTable(
     id: id(),
     userId: uuid('user_id')
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: 'cascade' }),
     familyId: uuid('family_id').notNull(),
     refreshTokenHash: text('refresh_token_hash').notNull(),
     expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
@@ -120,6 +127,7 @@ export const sessions = pgTable(
   (t) => [
     uniqueIndex('sessions_refresh_token_hash_idx').on(t.refreshTokenHash),
     index('sessions_user_idx').on(t.userId),
+    index('sessions_family_idx').on(t.familyId),
   ],
 );
 
@@ -129,14 +137,17 @@ export const authTokens = pgTable(
     id: id(),
     userId: uuid('user_id')
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: 'cascade' }),
     type: text('type', { enum: ['email_verification', 'password_reset'] }).notNull(),
     tokenHash: text('token_hash').notNull(),
     expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
     consumedAt: timestamp('consumed_at', { withTimezone: true }),
     ...timestamps,
   },
-  (t) => [uniqueIndex('auth_tokens_token_hash_idx').on(t.tokenHash)],
+  (t) => [
+    uniqueIndex('auth_tokens_token_hash_idx').on(t.tokenHash),
+    index('auth_tokens_user_type_idx').on(t.userId, t.type),
+  ],
 );
 
 export const auditLogs = pgTable(

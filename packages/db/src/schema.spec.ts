@@ -10,7 +10,9 @@ describe('foundation schema', () => {
   });
 
   afterEach(async () => {
-    await testDb.client.close();
+    if (testDb) {
+      await testDb.client.close();
+    }
   });
 
   it('applies migrations and inserts a company with defaults', async () => {
@@ -20,7 +22,7 @@ describe('foundation schema', () => {
       .returning();
 
     expect(company).toBeDefined();
-    expect(company!.id).toMatch(/^[0-9a-f-]{36}$/);
+    expect(company!.id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$/);
     expect(company!.status).toBe('active');
     expect(company!.timezone).toBe('America/Santiago');
     expect(company!.locale).toBe('es');
