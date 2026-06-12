@@ -6,10 +6,10 @@ Monorepo del producto. Arquitectura y roadmap: ver
 ## Estructura
 
 - `apps/api` — API NestJS (monolito modular)
-- `apps/web` — Frontend Next.js (sub-proyecto F4)
+- `apps/web` — Frontend Next.js (sub-proyecto F4, aún no existe)
 - `packages/db` — Esquema Drizzle + migraciones (PostgreSQL)
 - `packages/shared` — Tipos, permisos y contratos compartidos
-- `packages/ui` — Design system (sub-proyecto F4)
+- `packages/ui` — Design system (sub-proyecto F4, aún no existe)
 
 ## Desarrollo local
 
@@ -20,7 +20,7 @@ pnpm install
 docker compose up -d          # postgres (pgvector), redis, mailpit
 cp .env.example .env
 pnpm --filter @app/db db:migrate
-pnpm dev
+pnpm --filter @app/api dev   # por ahora solo existe la API
 ```
 
 - API: http://localhost:4000 — OpenAPI en `/api/docs`, health en `/health/liveness`
