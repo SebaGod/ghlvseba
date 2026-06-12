@@ -27,7 +27,7 @@
 - Create: `.prettierrc`
 - Create: `.prettierignore`
 
-- [ ] **Step 1: Crear `package.json` raíz**
+- [x] **Step 1: Crear `package.json` raíz**
 
 ```json
 {
@@ -54,7 +54,7 @@
 
 (Nota: `lint` se redefine como `eslint .` en la Task 6; aquí queda apuntando a turbo de forma transitoria.)
 
-- [ ] **Step 2: Crear `pnpm-workspace.yaml`**
+- [x] **Step 2: Crear `pnpm-workspace.yaml`**
 
 ```yaml
 packages:
@@ -62,7 +62,7 @@ packages:
   - packages/*
 ```
 
-- [ ] **Step 3: Crear `turbo.json`**
+- [x] **Step 3: Crear `turbo.json`**
 
 ```json
 {
@@ -87,7 +87,7 @@ packages:
 }
 ```
 
-- [ ] **Step 4: Crear `tsconfig.base.json`**
+- [x] **Step 4: Crear `tsconfig.base.json`**
 
 ```json
 {
@@ -109,7 +109,7 @@ packages:
 
 (Los `apps/api` y paquetes que lo necesiten sobreescriben `module`/`moduleResolution`.)
 
-- [ ] **Step 5: Crear `.gitignore`**
+- [x] **Step 5: Crear `.gitignore`**
 
 ```
 node_modules/
@@ -124,7 +124,7 @@ coverage/
 *.log
 ```
 
-- [ ] **Step 6: Crear `.nvmrc`, `.prettierrc` y `.prettierignore`**
+- [x] **Step 6: Crear `.nvmrc`, `.prettierrc` y `.prettierignore`**
 
 `.nvmrc`:
 
@@ -154,7 +154,7 @@ coverage/
 packages/db/drizzle/
 ```
 
-- [ ] **Step 7: Instalar y verificar**
+- [x] **Step 7: Instalar y verificar**
 
 Run: `pnpm install`
 Expected: termina sin errores y crea `pnpm-lock.yaml`.
@@ -162,7 +162,7 @@ Expected: termina sin errores y crea `pnpm-lock.yaml`.
 Run: `pnpm exec turbo --version`
 Expected: imprime una versión 2.x.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add package.json pnpm-workspace.yaml turbo.json tsconfig.base.json .gitignore .nvmrc .prettierrc .prettierignore pnpm-lock.yaml
@@ -177,7 +177,7 @@ git commit -m "chore: scaffold pnpm + turborepo monorepo"
 - Create: `docker-compose.yml`
 - Create: `.env.example`
 
-- [ ] **Step 1: Crear `docker-compose.yml`**
+- [x] **Step 1: Crear `docker-compose.yml`**
 
 ```yaml
 services:
@@ -212,7 +212,7 @@ volumes:
   pgdata:
 ```
 
-- [ ] **Step 2: Crear `.env.example`**
+- [x] **Step 2: Crear `.env.example`**
 
 ```
 NODE_ENV=development
@@ -221,12 +221,12 @@ DATABASE_URL=postgres://app:app@localhost:5432/app
 REDIS_URL=redis://localhost:6379
 ```
 
-- [ ] **Step 3: Verificar**
+- [x] **Step 3: Verificar**
 
 Si hay Docker disponible: `docker compose config -q` → exit 0.
 Si NO hay Docker (este entorno): verificación visual de indentación YAML; el archivo se valida de verdad en el dev local del usuario.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add docker-compose.yml .env.example
@@ -247,7 +247,7 @@ Implementa el mapa de roles/permisos del spec §5. Es la fuente de verdad que la
 - Create: `packages/shared/src/permissions.ts`
 - Test: `packages/shared/src/permissions.spec.ts`
 
-- [ ] **Step 1: Crear `packages/shared/package.json`**
+- [x] **Step 1: Crear `packages/shared/package.json`**
 
 ```json
 {
@@ -275,7 +275,7 @@ Implementa el mapa de roles/permisos del spec §5. Es la fuente de verdad que la
 }
 ```
 
-- [ ] **Step 2: Crear `packages/shared/tsconfig.json`**
+- [x] **Step 2: Crear `packages/shared/tsconfig.json`**
 
 ```json
 {
@@ -284,7 +284,7 @@ Implementa el mapa de roles/permisos del spec §5. Es la fuente de verdad que la
 }
 ```
 
-- [ ] **Step 3: Crear `packages/shared/vitest.config.ts`**
+- [x] **Step 3: Crear `packages/shared/vitest.config.ts`**
 
 ```ts
 import { defineConfig } from 'vitest/config';
@@ -297,7 +297,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 4: Escribir el test que falla** — `packages/shared/src/permissions.spec.ts`
+- [x] **Step 4: Escribir el test que falla** — `packages/shared/src/permissions.spec.ts`
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -337,13 +337,13 @@ describe('roleHasPermission', () => {
 });
 ```
 
-- [ ] **Step 5: Instalar deps y verificar que el test falla**
+- [x] **Step 5: Instalar deps y verificar que el test falla**
 
 Run: `pnpm install` (desde la raíz, registra el nuevo workspace)
 Run: `pnpm --filter @app/shared test`
 Expected: FAIL — `Cannot find module './permissions'` (o equivalente).
 
-- [ ] **Step 6: Implementar** — `packages/shared/src/permissions.ts`
+- [x] **Step 6: Implementar** — `packages/shared/src/permissions.ts`
 
 ```ts
 export const COMPANY_ROLES = ['company_admin', 'manager', 'agent'] as const;
@@ -375,7 +375,7 @@ y `packages/shared/src/index.ts`:
 export * from './permissions';
 ```
 
-- [ ] **Step 7: Verificar que pasa**
+- [x] **Step 7: Verificar que pasa**
 
 Run: `pnpm --filter @app/shared test`
 Expected: PASS (4 tests).
@@ -383,7 +383,7 @@ Expected: PASS (4 tests).
 Run: `pnpm --filter @app/shared build && pnpm --filter @app/shared typecheck`
 Expected: genera `dist/` con `.js`, `.cjs` y `.d.ts`; typecheck sin errores.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add packages/shared pnpm-lock.yaml
@@ -408,7 +408,7 @@ Implementa el modelo de datos del spec §4. PKs uuid v7 generadas en aplicación
 - Create: `packages/db/drizzle/` (migraciones generadas)
 - Test: `packages/db/src/schema.spec.ts`
 
-- [ ] **Step 1: Crear `packages/db/package.json`**
+- [x] **Step 1: Crear `packages/db/package.json`**
 
 ```json
 {
@@ -454,7 +454,7 @@ Implementa el modelo de datos del spec §4. PKs uuid v7 generadas en aplicación
 
 (`--shims` hace que `import.meta.url` funcione también en el build CJS.)
 
-- [ ] **Step 2: Crear `tsconfig.json`, `vitest.config.ts` y `drizzle.config.ts`**
+- [x] **Step 2: Crear `tsconfig.json`, `vitest.config.ts` y `drizzle.config.ts`**
 
 `packages/db/tsconfig.json`:
 
@@ -491,7 +491,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 3: Escribir el esquema** — `packages/db/src/schema.ts`
+- [x] **Step 3: Escribir el esquema** — `packages/db/src/schema.ts`
 
 ```ts
 import {
@@ -670,7 +670,7 @@ export const outboxEvents = pgTable(
 );
 ```
 
-- [ ] **Step 4: Crear `src/index.ts`, `src/testing.ts` y `src/migrate.ts`**
+- [x] **Step 4: Crear `src/index.ts`, `src/testing.ts` y `src/migrate.ts`**
 
 `packages/db/src/index.ts`:
 
@@ -725,13 +725,13 @@ main().catch((err) => {
 });
 ```
 
-- [ ] **Step 5: Instalar y generar la migración inicial**
+- [x] **Step 5: Instalar y generar la migración inicial**
 
 Run: `pnpm install`
 Run: `pnpm --filter @app/db db:generate`
 Expected: crea `packages/db/drizzle/0000_*.sql` con los CREATE TABLE de las 8 tablas + carpeta `meta/`.
 
-- [ ] **Step 6: Escribir el test de integración** — `packages/db/src/schema.spec.ts`
+- [x] **Step 6: Escribir el test de integración** — `packages/db/src/schema.spec.ts`
 
 ```ts
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
@@ -802,17 +802,17 @@ describe('foundation schema', () => {
 });
 ```
 
-- [ ] **Step 7: Ejecutar tests**
+- [x] **Step 7: Ejecutar tests**
 
 Run: `pnpm --filter @app/db test`
 Expected: PASS (4 tests). La primera ejecución descarga el WASM de PGlite ya instalado vía npm; no requiere red ni Docker.
 
-- [ ] **Step 8: Build y typecheck**
+- [x] **Step 8: Build y typecheck**
 
 Run: `pnpm --filter @app/db build && pnpm --filter @app/db typecheck`
 Expected: `dist/` con entradas `index` y `testing` en ESM+CJS+d.ts; typecheck limpio.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add packages/db pnpm-lock.yaml
@@ -842,7 +842,7 @@ git commit -m "feat(db): add foundation schema, migrations and pglite test harne
 - Test: `apps/api/src/config/env.spec.ts`
 - Test: `apps/api/test/health.e2e-spec.ts`
 
-- [ ] **Step 1: Crear `apps/api/package.json`**
+- [x] **Step 1: Crear `apps/api/package.json`**
 
 ```json
 {
@@ -888,7 +888,7 @@ git commit -m "feat(db): add foundation schema, migrations and pglite test harne
 }
 ```
 
-- [ ] **Step 2: Configs de compilación y test**
+- [x] **Step 2: Configs de compilación y test**
 
 `apps/api/tsconfig.json`:
 
@@ -970,7 +970,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 3: Test de config que falla** — `apps/api/src/config/env.spec.ts`
+- [x] **Step 3: Test de config que falla** — `apps/api/src/config/env.spec.ts`
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -1004,13 +1004,13 @@ describe('loadEnv', () => {
 });
 ```
 
-- [ ] **Step 4: Instalar deps y verificar que falla**
+- [x] **Step 4: Instalar deps y verificar que falla**
 
 Run: `pnpm install`
 Run: `pnpm --filter @app/api test`
 Expected: FAIL — `Cannot find module './env'`.
 
-- [ ] **Step 5: Implementar config** — `apps/api/src/config/env.ts`
+- [x] **Step 5: Implementar config** — `apps/api/src/config/env.ts`
 
 ```ts
 import { z } from 'zod';
@@ -1052,12 +1052,12 @@ export const ENV = Symbol('ENV');
 export class ConfigModule {}
 ```
 
-- [ ] **Step 6: Verificar que el test de config pasa**
+- [x] **Step 6: Verificar que el test de config pasa**
 
 Run: `pnpm --filter @app/api test`
 Expected: PASS los 4 tests de `env.spec.ts` (aún no existe el e2e).
 
-- [ ] **Step 7: Filtro global de excepciones** — `apps/api/src/common/filters/global-exception.filter.ts`
+- [x] **Step 7: Filtro global de excepciones** — `apps/api/src/common/filters/global-exception.filter.ts`
 
 ```ts
 import {
@@ -1113,7 +1113,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 }
 ```
 
-- [ ] **Step 8: Infra de base de datos** — `apps/api/src/infra/db/db.service.ts`
+- [x] **Step 8: Infra de base de datos** — `apps/api/src/infra/db/db.service.ts`
 
 ```ts
 import { Inject, Injectable, OnModuleDestroy } from '@nestjs/common';
@@ -1158,7 +1158,7 @@ import { DbService } from './db.service';
 export class DbModule {}
 ```
 
-- [ ] **Step 9: Test e2e de health que falla** — `apps/api/test/health.e2e-spec.ts`
+- [x] **Step 9: Test e2e de health que falla** — `apps/api/test/health.e2e-spec.ts`
 
 ```ts
 import { INestApplication } from '@nestjs/common';
@@ -1216,7 +1216,7 @@ describe('health endpoints (e2e)', () => {
 Run: `pnpm --filter @app/api test`
 Expected: FAIL — `Cannot find module '../src/modules/health/health.module'`.
 
-- [ ] **Step 10: Implementar health** — `apps/api/src/modules/health/health.controller.ts`
+- [x] **Step 10: Implementar health** — `apps/api/src/modules/health/health.controller.ts`
 
 ```ts
 import { Controller, Get, HttpStatus } from '@nestjs/common';
@@ -1258,12 +1258,12 @@ import { HealthController } from './health.controller';
 export class HealthModule {}
 ```
 
-- [ ] **Step 11: Verificar que todos los tests pasan**
+- [x] **Step 11: Verificar que todos los tests pasan**
 
 Run: `pnpm --filter @app/api test`
 Expected: PASS (7 tests: 4 de env + 3 de health e2e).
 
-- [ ] **Step 12: Bootstrap de la app** — `apps/api/src/app.module.ts`
+- [x] **Step 12: Bootstrap de la app** — `apps/api/src/app.module.ts`
 
 ```ts
 import { Module } from '@nestjs/common';
@@ -1321,14 +1321,14 @@ async function bootstrap() {
 void bootstrap();
 ```
 
-- [ ] **Step 13: Build y typecheck**
+- [x] **Step 13: Build y typecheck**
 
 Run: `pnpm --filter @app/api build && pnpm --filter @app/api typecheck`
 Expected: `apps/api/dist/main.js` generado; typecheck limpio.
 
 (El arranque real `node dist/main.js` requiere Postgres corriendo; en este entorno sin Docker se valida con los tests e2e. En dev local: `docker compose up -d && pnpm --filter @app/db db:migrate && pnpm --filter @app/api dev`.)
 
-- [ ] **Step 14: Commit**
+- [x] **Step 14: Commit**
 
 ```bash
 git add apps/api pnpm-lock.yaml
@@ -1343,7 +1343,7 @@ git commit -m "feat(api): add nestjs skeleton with validated config, pino, error
 - Create: `eslint.config.mjs`
 - Modify: `package.json` (script `lint` y devDependencies)
 
-- [ ] **Step 1: Crear `eslint.config.mjs`**
+- [x] **Step 1: Crear `eslint.config.mjs`**
 
 ```js
 import eslint from '@eslint/js';
@@ -1371,7 +1371,7 @@ export default tseslint.config(
 );
 ```
 
-- [ ] **Step 2: Actualizar la raíz**
+- [x] **Step 2: Actualizar la raíz**
 
 En `package.json` raíz, reemplazar el script `lint` y agregar devDependencies:
 
@@ -1399,16 +1399,16 @@ En `package.json` raíz, reemplazar el script `lint` y agregar devDependencies:
 
 Y eliminar `lint` del objeto `tasks` de `turbo.json` (queda `build`, `typecheck`, `test`, `dev`).
 
-- [ ] **Step 3: Instalar y verificar todo el monorepo**
+- [x] **Step 3: Instalar y verificar todo el monorepo**
 
 Run: `pnpm install`
 Run: `pnpm lint`
 Expected: exit 0 (corregir cualquier hallazgo real que reporte; no silenciar reglas sin causa).
 
 Run: `pnpm typecheck && pnpm build && pnpm test`
-Expected: turbo ejecuta los tres pipelines en `@app/shared`, `@app/db` y `@app/api` sin errores (11 tests en total).
+Expected: turbo ejecuta los tres pipelines en `@app/shared`, `@app/db` y `@app/api` sin errores (18 tests en total: 4 shared + 4 db + 10 api, contando los 3 tests del filtro agregados en review).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add eslint.config.mjs package.json turbo.json pnpm-lock.yaml
@@ -1423,7 +1423,7 @@ git commit -m "chore: add eslint flat config and wire monorepo lint/typecheck"
 - Create: `.github/workflows/ci.yml`
 - Create: `README.md`
 
-- [ ] **Step 1: Crear `.github/workflows/ci.yml`**
+- [x] **Step 1: Crear `.github/workflows/ci.yml`**
 
 ```yaml
 name: CI
@@ -1452,7 +1452,7 @@ jobs:
 
 (`pnpm/action-setup@v4` toma la versión del campo `packageManager`. `typecheck`/`test` dependen de `build` vía turbo, pero se ejecuta `build` explícito antes para logs claros.)
 
-- [ ] **Step 2: Crear `README.md`**
+- [x] **Step 2: Crear `README.md`**
 
 ````markdown
 # Plataforma SaaS — CRM + IA + Omnicanalidad
@@ -1492,7 +1492,7 @@ pnpm lint && pnpm typecheck && pnpm test
 Los tests de integración usan PGlite (Postgres embebido): no requieren Docker.
 ````
 
-- [ ] **Step 3: Commit y push**
+- [x] **Step 3: Commit y push**
 
 ```bash
 git add .github/workflows/ci.yml README.md
@@ -1518,3 +1518,38 @@ Expected: push exitoso; el workflow corre en GitHub sobre la rama y queda verde.
 | §9 CI bloqueante | 7 |
 
 **Queda para planes siguientes:** F2 auth+tenancy (CLS, `tenantDb`, guards, endpoints `/auth/*`, `/me`), F3 equipo/invitaciones/emails (BullMQ + worker + outbox publisher + Mailpit, audit, `/admin/*`), F4 frontend completo, F5 Playwright E2E + Dockerfiles + deploy.
+
+---
+
+## Registro de ejecución (2026-06-12) — COMPLETADO ✅
+
+Ejecutado con subagent-driven-development (implementador + revisión de spec +
+revisión de calidad por tarea, más revisión final holística). Rango de
+commits: `4fe4c02..6cc7eaa` (14 commits). CI verde en GitHub Actions (run #1,
+41s). Suite final: 18/18 tests, lint/typecheck/build limpios, cero drift de
+migraciones.
+
+### Enmiendas aprobadas en review durante la ejecución
+
+- `turbo.json`: `globalDependencies` (tsconfig.base.json) y `globalEnv` (NODE_ENV).
+- Compose: mailpit pineado a v1.21, healthcheck de redis, esquema `postgresql://`.
+- `@app/shared` y `@app/db`: exports maps anidados por condición
+  (`import`/`require` con types `.d.ts`/`.d.cts`) + fallbacks `main`/`types`.
+- `@app/db`: índices para F2 (`sessions_family_idx`, `auth_tokens_user_type_idx`,
+  `invitations_company_email_idx`); `ON DELETE CASCADE` en sessions/auth_tokens
+  (resto de FKs: NO ACTION deliberado por soft-delete); assert de uuid v7.
+- `apps/api`: tsconfig `module`/`moduleResolution` **node16** (en vez de
+  commonjs/node) para honrar exports maps; `.swcrc` eliminado (inerte);
+  handler de `error` del Pool de pg + `connectionTimeoutMillis`;
+  `import 'reflect-metadata'` explícito; 3 tests unit del filtro (camino 500).
+- ESLint: `varsIgnorePattern`/`caughtErrorsIgnorePattern` `^_`; ignore de `.claude/`.
+- CI: bloque `concurrency` + `timeout-minutes: 15`.
+- README: `apps/web`/`packages/ui` marcados como pendientes; `pnpm dev`
+  acotado a la API.
+- Raíz: `pnpm.onlyBuiltDependencies` (esbuild, pglite) requerido por pnpm 10.
+
+### Pendientes diferidos a F2 (anotados en review)
+
+- Mapeo de códigos de error por status (404→not_found, etc.) y normalización
+  de throws no-Error en el filtro global.
+- Evaluar `recommendedTypeChecked` de typescript-eslint cuando el código crezca.
